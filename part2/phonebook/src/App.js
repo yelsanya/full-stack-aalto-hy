@@ -77,11 +77,8 @@ const App = () => {
   const [persons, setPersons] = useState([])
   const [newContact, setNewContact] = useState({name:'', number:''})
   const [newFilter, setNewFilter] = useState('')
+  const [filteredPersons, setFilteredPersons] = useState(persons)
   const [notification, setNotification] = useState({message: null, type: "success"})
-
-  const filteredContacts = newFilter === ''
-    ? persons
-    : persons.filter(person => person.name.includes(newFilter))
 
 
 
@@ -99,12 +96,11 @@ const App = () => {
             window.confirm(`${newContact.name} is already added to phonebook, replace the old number?`)){
             db.updateContact(persons[i].id, newContact).then()
                 .catch(() => {
-                    setNotification({
-                        message: `Information of '${newContact.name}' has already been removed from server`,
-                        type: "error"
-                    })
                     setTimeout(() => {
-                        setNotification({message: null, type: "success"})
+                        setNotification({
+                            message: `Information of '${newContact.name}' has already been removed from server`,
+                            type: "error"
+                        })
                     }, 5000)
                     getData()
                 })
@@ -118,8 +114,10 @@ const App = () => {
             return
         }
     }
-    setPersons([...persons, {name: newContact.name, number: newContact.number, id: persons[persons.length-1].id + 1}])
-    db.createContact(newContact)
+    db.createContact(newContact).then(response => {
+        console.log(response.data)
+        setPersons([...persons, response.data])
+    })
     setNotification({type: "success", message: `Added ${newContact.name}`})
     setTimeout(() => {
         setNotification({type: "success", message: null})
@@ -140,6 +138,11 @@ const App = () => {
       setNewFilter(event.target.value)
   }
 
+  useEffect(() => setFilteredPersons(newFilter === ''
+        ? persons
+        : persons.filter(person => person.name.includes(newFilter))
+      )
+  , [newFilter, persons])
   useEffect(()=> getData(),[])
 
   return (
@@ -148,7 +151,7 @@ const App = () => {
       <Notification notification={notification}/>
       <Filter newFilter={newFilter} handler={handleFilterChange}/>
       <NewContact addNumber={addNumber} newContact={newContact} handler={handleContactChange}/>
-      <Contacts filteredContacts={filteredContacts} contacts={persons} setContacts={setPersons}/>
+      <Contacts filteredContacts={filteredPersons} contacts={persons} setContacts={setPersons}/>
     </div>
   )
 }

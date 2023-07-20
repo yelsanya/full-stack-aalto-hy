@@ -1,1 +1,8 @@
 /.idea/*
+/part2/countries/.env
+/part2/phonebook/node_modules/*
+/part2/course_info/node_modules/*
+/part2/countries/node_modules/*
+/part1/anecdotes/node_modules/*
+/part1/course_info/node_modules/*
+part1/unicafe/node_modules/*

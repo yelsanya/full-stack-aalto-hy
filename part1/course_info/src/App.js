@@ -8,7 +8,7 @@ const Header = (props) => {
 const Part = (props) => {
     return (
         <p>
-            {props.part.name} {props.part.num}
+            {props.part.name} {props.part.exercises}
         </p>
     )
 }

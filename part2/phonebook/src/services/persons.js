@@ -1,15 +1,12 @@
 import axios from 'axios'
-const baseUrl = 'http://172.20.154.175:3001/persons'
+const baseUrl = '/api/persons'
 
 const getData = () => {
     return axios.get(baseUrl)
 }
 
 const createContact = (contact) => {
-    axios.post(baseUrl, contact)
-        .then(response => {
-            console.log(response)
-        })
+    return axios.post(baseUrl, contact)
 }
 
 const deleteContact = (id) => {

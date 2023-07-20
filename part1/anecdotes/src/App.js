@@ -1,15 +1,5 @@
 import { useState } from 'react'
 
-const random_anecdote = function (size, selected, setSelected) {
-  while (true) {
-    let anecdote = Math.floor(Math.random() * size)
-    if (selected !== anecdote) {
-      setSelected(anecdote)
-      break
-    }
-  }
-}
-
 const Best = (props) => {
     let max = 0
     let max_index = 0
@@ -42,6 +32,16 @@ const App = () => {
 
   const [selected, setSelected] = useState(0)
   const [votes_array, setVotes] = useState(Array(anecdotes.length).fill(0))
+
+  const random_anecdote = () => {
+      while (true) {
+        let anecdote = Math.floor(Math.random() * anecdotes.length)
+        if (selected !== anecdote) {
+          setSelected(anecdote)
+          break
+        }
+      }
+    }
 
   return (
     <>
