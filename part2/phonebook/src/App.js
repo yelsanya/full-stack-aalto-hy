@@ -96,10 +96,14 @@ const App = () => {
             window.confirm(`${newContact.name} is already added to phonebook, replace the old number?`)){
             db.updateContact(persons[i].id, newContact).then()
                 .catch(() => {
+                    setNotification({
+                        message: `Information of '${newContact.name}' has already been removed from server`,
+                        type: "error"
+                    })
                     setTimeout(() => {
                         setNotification({
-                            message: `Information of '${newContact.name}' has already been removed from server`,
-                            type: "error"
+                            message: null,
+                            type: "success"
                         })
                     }, 5000)
                     getData()
